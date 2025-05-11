@@ -47,17 +47,25 @@ function DRClassification() {
 
     // Create a FormData object to send the file to the backend
     const formData = new FormData();
-    formData.append('image', selectedFile);
+    formData.append("image", selectedFile);
 
     try {
       // Send the request to your Flask backend
-      const response = await fetch('http://localhost:5000/predict', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/predict", {
+        method: "POST",
         body: formData,
+        // Add these headers to ensure CORS works properly
+        headers: {
+          Accept: "application/json",
+          // Don't set Content-Type when using FormData - browser will set it automatically with boundary
+        },
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || `HTTP error! Status: ${response.status}`
+        );
       }
 
       const result = await response.json();
@@ -78,9 +86,9 @@ function DRClassification() {
       1: "Mild DR (Mild diabetic retinopathy)",
       2: "Moderate DR (Moderate diabetic retinopathy)",
       3: "Severe DR (Severe diabetic retinopathy)",
-      4: "Proliferative DR (Proliferative diabetic retinopathy)"
+      4: "Proliferative DR (Proliferative diabetic retinopathy)",
     };
-    
+
     return labels[prediction.class] || `Unknown (${prediction.class})`;
   };
 
@@ -133,15 +141,24 @@ function DRClassification() {
             <p className="file-selected">Selected: {selectedFile.name}</p>
             {previewUrl && (
               <div className="image-preview">
-                <img src={previewUrl} alt="Preview" className="preview-image" />
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="preview-image"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    objectFit: "contain",
+                  }}
+                />
               </div>
             )}
           </div>
         )}
 
         <div className="predict-button-container">
-          <button 
-            className="predict-button" 
+          <button
+            className="predict-button"
             onClick={handlePredict}
             disabled={loading || !selectedFile}
           >
@@ -150,26 +167,62 @@ function DRClassification() {
         </div>
 
         {loading && (
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
+          <div
+            className="loading-container"
+            style={{ textAlign: "center", margin: "20px 0" }}
+          >
+            <div
+              className="loading-spinner"
+              style={{
+                border: "4px solid #f3f3f3",
+                borderTop: "4px solid #006d77",
+                borderRadius: "50%",
+                width: "30px",
+                height: "30px",
+                animation: "spin 2s linear infinite",
+                margin: "0 auto 10px auto",
+              }}
+            ></div>
             <p>Analyzing image...</p>
           </div>
         )}
 
         {error && (
-          <div className="error-message">
+          <div
+            className="error-message"
+            style={{
+              color: "#e63946",
+              textAlign: "center",
+              margin: "20px 0",
+              padding: "10px",
+              backgroundColor: "#ffccd5",
+              borderRadius: "5px",
+            }}
+          >
             {error}
           </div>
         )}
 
         {prediction && (
-          <div className="prediction-result">
-            <h2>Prediction Result</h2>
+          <div
+            className="prediction-result"
+            style={{
+              margin: "20px 0",
+              padding: "15px",
+              backgroundColor: "#edf6f9",
+              borderRadius: "5px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            }}
+          >
+            <h2 style={{ color: "#006d77", marginBottom: "10px" }}>
+              Prediction Result
+            </h2>
             <p className="prediction-class">
               <strong>Classification:</strong> {getDRLabel(prediction)}
             </p>
             <p className="prediction-confidence">
-              <strong>Confidence:</strong> {(prediction.confidence * 100).toFixed(2)}%
+              <strong>Confidence:</strong>{" "}
+              {(prediction.confidence * 100).toFixed(2)}%
             </p>
           </div>
         )}
