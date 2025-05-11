@@ -1,0 +1,115 @@
+/* DRClassification.css */
+.dr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #006d77, #e0e7ff);
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.dr-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #83c5be;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+}
+
+.dr-title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  color: #103c3f;
+  margin-bottom: 40px;
+}
+
+.upload-area {
+  border: 2px dashed #035d61;
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-area:hover {
+  border-color: #035d61;
+  background-color: #208189;
+}
+
+.upload-icon {
+  color: #103c3f;
+  margin-bottom: 16px;
+}
+
+.upload-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.upload-subtitle {
+  font-size: 14px;
+  color: #103c3f;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.browse-button {
+  padding: 8px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #374151;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.browse-button:hover {
+  background-color: #e5e7eb;
+}
+
+.file-selected {
+  text-align: center;
+  color: #059669;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.predict-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.predict-button {
+  padding: 12px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #103c3f;
+  background-color: #006d77;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.predict-button:hover {
+  background-color: #3b988f;
+}
